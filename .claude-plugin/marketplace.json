@@ -1,0 +1,27 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "jasonstrimpel-legal-genius-plugin",
+  "description": "Legal Genius contract gap analysis plugin for Claude Code",
+  "owner": {
+    "name": "Jason Strimpel",
+    "email": "jason@example.com"
+  },
+  "plugins": [
+    {
+      "name": "legal-genius",
+      "description": "AI-powered legal contract gap analysis pipeline for Andersen Consulting. Run /legal-genius to analyze target contracts against benchmark templates, producing exhaustive gap reports and redlined documents with tracked changes.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Jason Strimpel",
+        "email": "jason@example.com"
+      },
+      "source": {
+        "source": "url",
+        "url": "https://github.com/jasonstrimpel/legal-genius-plugin.git"
+      },
+      "category": "productivity",
+      "strict": false,
+      "homepage": "https://github.com/jasonstrimpel/legal-genius-plugin"
+    }
+  ]
+}
