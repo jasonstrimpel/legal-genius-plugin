@@ -1,0 +1,16 @@
+{
+  "name": "legal-genius",
+  "description": "AI-powered legal contract gap analysis pipeline for Andersen Consulting. Run /legal-genius to analyze target contracts against benchmark templates, producing exhaustive gap reports and redlined documents with tracked changes.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Jason Strimpel"
+  },
+  "license": "MIT",
+  "keywords": [
+    "legal",
+    "contract-analysis",
+    "gap-analysis",
+    "redlining",
+    "andersen-consulting"
+  ]
+}
