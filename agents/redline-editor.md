@@ -41,6 +41,12 @@ Read `unpacked_{serial}/word/document.xml` to understand the document structure.
 
 For each gap in the analysis, locate the corresponding text in document.xml and apply tracked changes using the Edit tool.
 
+**Clause location strategy (use in order):**
+
+1. **Primary — Bookmark search:** Search for `<w:bookmarkStart w:name="clause_{normalized}"/>` where `{normalized}` is the clause number with dots and letters replaced by underscores (e.g., clause 1.1 → `clause_1_1`, clause 2.3.a → `clause_2_3_a`). The target paragraph immediately follows the bookmarkStart element.
+
+2. **Fallback — Text search:** If no bookmark matches, search for the clause number or quoted target language directly in `<w:t>` elements within the document XML.
+
 **Modifying existing text (replace language):**
 
 Find the `<w:r>` element containing the text to change. Replace the entire `<w:r>...</w:r>` block with a `<w:del>` + `<w:ins>` pair:
@@ -112,6 +118,7 @@ rm -rf unpacked_{serial}/
 - **Paragraph deletion:** When deleting all content in a paragraph, also add `<w:del/>` inside `<w:pPr><w:rPr>` to merge paragraphs on accept
 - **Replace entire w:r blocks:** Don't inject tracked change tags inside a run. Replace the whole `<w:r>...</w:r>`.
 - **Minimal edits:** Only mark what actually changes. Split runs at edit boundaries to keep surrounding text unchanged.
+- **Bookmarks:** Do NOT delete or modify `<w:bookmarkStart>` or `<w:bookmarkEnd>` elements. Insert tracked changes inside the bookmarked region, between the start and end tags.
 </xml_rules>
 
 <error_handling>
