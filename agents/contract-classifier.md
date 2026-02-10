@@ -4,6 +4,7 @@ description: |
   Use this agent to read a target contract PDF, classify its contract type, and select the most appropriate benchmark template.
   <example>Context: Target contracts have been discovered in the firm's directory. user: "Classify this contract and select a benchmark" assistant: "Spawning contract-classifier to read the target PDF, determine contract type, and match it to a benchmark" <commentary>The contract-classifier reads the full PDF, identifies the contract type (MSA, SOW, etc.), extracts the client name, and selects the best-matching benchmark from the benchmarks directory.</commentary></example>
 model: opus
+color: blue
 tools: [Read, Write, Glob]
 ---
 

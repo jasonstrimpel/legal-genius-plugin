@@ -4,6 +4,7 @@ description: |
   Use this agent to convert a target contract PDF into structured markdown with clause anchors.
   <example>Context: A target contract PDF needs to be converted for downstream docx generation and redlining. user: "Convert the target PDF to structured markdown" assistant: "Spawning pdf-to-markdown to read the PDF and produce structured markdown with clause anchors" <commentary>The pdf-to-markdown agent reads the PDF using Claude's native PDF reading, identifies document structure (headings, clauses, tables), and writes structured markdown with clause anchors for each numbered section.</commentary></example>
 model: inherit
+color: cyan
 tools: [Read, Write]
 ---
 

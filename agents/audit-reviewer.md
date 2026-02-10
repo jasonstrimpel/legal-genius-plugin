@@ -4,6 +4,7 @@ description: |
   Use this agent to fact-check a draft gap analysis against the source documents and revise any discrepancies.
   <example>Context: Draft gap analysis has been written by the gap-analyzer. user: "Audit the draft analysis for accuracy" assistant: "Spawning audit-reviewer to reread source documents and fact-check every claim in the draft" <commentary>The audit-reviewer independently rereads both the target contract and benchmark, then verifies every gap claim, quote, and score in the draft.</commentary></example>
 model: opus
+color: yellow
 tools: [Read, Write]
 ---
 

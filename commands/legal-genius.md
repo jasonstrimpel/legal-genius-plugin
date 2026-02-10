@@ -41,8 +41,8 @@ Store these variables for the current contract:
 
 Spawn the `contract-classifier` agent:
 - subagent_type: "contract-classifier"
-- prompt: "[Firm: {firm_slug}] [Target: {target_path}] [Benchmarks Dir: benchmarks/] Read the target contract PDF at {target_path}. Use Glob to list benchmarks in benchmarks/. Classify the contract type (MSA, SOW, JAL, NDA, SUBK, AMEND), extract the client name, and select the best matching benchmark. Write results to analysis/{firm_slug}/{date}-{firm_slug}-PENDING-PENDING-{serial}/classification.md"
-- description: "Classifying contract → classification.md"
+- prompt: "[Firm: {firm_slug}] [Target: {target_path}] [Benchmarks Dir: benchmarks/] Read the target contract PDF at {target_path}. Use Glob to list benchmarks in benchmarks/. Classify the contract type (MSA, SOW, JAL, NDA, SUBK, AMEND), extract the client name, and select the best matching benchmark. Write results to analysis/{firm_slug}/classification-{serial}.md"
+- description: "Classifying contract → classification-{serial}.md"
 
 Wait for completion. Read the classification output to extract:
 - `{client_slug}` — Title_Case with underscores from extracted client name
@@ -51,13 +51,13 @@ Wait for completion. Read the classification output to extract:
 
 If classification failed (client name unknown or no benchmark match), ask the user for the missing information before proceeding.
 
-Rename the output directory from the PENDING placeholders:
-```bash
-mv "analysis/{firm_slug}/{date}-{firm_slug}-PENDING-PENDING-{serial}" "analysis/{firm_slug}/{date}-{firm_slug}-{client_slug}-{contract_type}-{serial}"
-```
-
 Set `{contract_dir}` = `analysis/{firm_slug}/{date}-{firm_slug}-{client_slug}-{contract_type}-{serial}`
 Set `{name_prefix}` = `{date}-{firm_slug}-{client_slug}-{contract_type}`
+
+Create the contract directory and move the classification file into it:
+```bash
+mkdir -p "{contract_dir}" && mv "analysis/{firm_slug}/classification-{serial}.md" "{contract_dir}/classification.md"
+```
 
 ### Step 2: Gap Analysis
 

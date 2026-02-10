@@ -4,6 +4,7 @@ description: |
   Use this agent to perform an exhaustive clause-by-clause gap analysis between a target contract and a benchmark template.
   <example>Context: Contract has been classified and benchmark selected. user: "Analyze gaps between target and benchmark" assistant: "Spawning gap-analyzer to perform exhaustive clause-by-clause comparison" <commentary>The gap-analyzer reads both documents completely, identifies ALL gaps with no cap, scores each on legal and business risk, and writes the draft analysis.</commentary></example>
 model: opus
+color: green
 tools: [Read, Write]
 ---
 

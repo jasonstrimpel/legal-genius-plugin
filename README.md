@@ -24,7 +24,6 @@ Install the plugin in your Claude Code project:
 
 | Dependency | Purpose | Install |
 |-----------|---------|---------|
-| LibreOffice | PDF to docx conversion | `brew install --cask libreoffice` |
 | pandoc | Benchmark docx text extraction | `brew install pandoc` |
 | docx (npm) | Word document creation | `npm install -g docx` |
 | lxml, defusedxml | XML validation and repair | `pip install lxml defusedxml` |
@@ -41,8 +40,8 @@ The plugin will process each target contract through a 6-step pipeline:
 1. **Classify** — Identify contract type and select matching benchmark
 2. **Analyze** — Exhaustive clause-by-clause gap analysis
 3. **Audit** — Independent fact-check of every claim and score
-4. **Convert** — Transform target PDF to docx (parallel)
-5. **Format** — Generate gap analysis report as Word document (parallel)
+4. **Convert PDF** — Extract target PDF to structured markdown with clause anchors
+5. **Convert to DOCX + Format report** — Generate target docx and gap analysis report (parallel)
 6. **Redline** — Apply tracked changes to target contract
 
 ## Output
@@ -73,7 +72,8 @@ agents/
   contract-classifier.md       # Reads PDF, classifies type, selects benchmark
   gap-analyzer.md              # Exhaustive clause-by-clause analysis
   audit-reviewer.md            # Fact-checks draft against source documents
-  target-to-docx.md            # Converts PDF to docx via LibreOffice
+  pdf-to-markdown.md           # Converts target PDF to structured markdown with clause anchors
+  target-to-docx.md            # Converts structured markdown to docx using docx-js
   redline-editor.md            # Applies tracked changes to target docx
   report-formatter.md          # Converts markdown to formatted Word document
 skills/docx/                   # Bundled docx skill (scripts, schemas, validators)

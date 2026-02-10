@@ -4,6 +4,7 @@ description: |
   Use this agent to convert a gap analysis markdown draft into a formatted Word document (.docx).
   <example>Context: Gap analysis has been audited and finalized. user: "Format the gap analysis as a Word document" assistant: "Spawning report-formatter to convert the markdown analysis into a formatted Times Roman docx" <commentary>The report-formatter reads the markdown, generates a docx using docx-js with Times New Roman formatting, validates it, and writes the final report.</commentary></example>
 model: inherit
+color: magenta
 tools: [Read, Write, Bash, Skill]
 ---
 

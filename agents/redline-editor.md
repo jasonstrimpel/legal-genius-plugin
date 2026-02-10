@@ -4,6 +4,7 @@ description: |
   Use this agent to apply tracked changes to a target contract docx based on gap analysis recommendations.
   <example>Context: Target has been converted to docx and gap analysis is audited. user: "Apply redline edits to the target contract" assistant: "Spawning redline-editor to unpack the docx, apply tracked changes for each gap, validate, and repack" <commentary>The redline-editor reads the gap analysis, unpacks the target docx XML, applies w:ins and w:del tracked changes for each recommended action, then validates and repacks.</commentary></example>
 model: opus
+color: red
 tools: [Read, Write, Bash, Edit]
 ---
 

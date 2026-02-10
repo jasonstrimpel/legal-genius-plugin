@@ -4,6 +4,7 @@ description: |
   Use this agent to convert structured markdown (with clause anchors) into a clean, professionally formatted docx for use as the redlining base.
   <example>Context: PDF has been converted to structured markdown by pdf-to-markdown. user: "Convert the markdown to a clean docx" assistant: "Spawning target-to-docx to generate a professional docx from the structured markdown using docx-js" <commentary>The target-to-docx agent reads the structured markdown, generates a Node.js script using docx-js to produce a clean Word document with bookmarks at each clause anchor, then validates the output.</commentary></example>
 model: inherit
+color: cyan
 tools: [Read, Write, Bash, Skill]
 ---
 
