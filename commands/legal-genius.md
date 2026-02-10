@@ -82,14 +82,23 @@ Spawn the `audit-reviewer` agent:
 
 Wait for completion.
 
-### Step 4 + Step 6: Parallel Fork (Target Conversion + Report Formatting)
+### Step 4a: PDF to Markdown
+
+Spawn the `pdf-to-markdown` agent:
+- subagent_type: "pdf-to-markdown"
+- prompt: "[Target: {target_path}] [Output: {contract_dir}/drafts/{name_prefix}-target-{serial}.md] Read the target contract PDF at {target_path} completely. Convert it to structured markdown with clause anchors on every numbered section. Preserve ALL text — do not summarize or omit anything. Write to {contract_dir}/drafts/{name_prefix}-target-{serial}.md"
+- description: "Converting PDF to markdown → {name_prefix}-target-{serial}.md"
+
+Wait for completion. Confirm the markdown file was written.
+
+### Step 4b + Step 6: Parallel Fork (Target DOCX + Report Formatting)
 
 Spawn BOTH agents SIMULTANEOUSLY in a single message with 2 Task calls:
 
-**Agent 4 — Target to DOCX:**
+**Agent 4b — Target to DOCX:**
 - subagent_type: "target-to-docx"
-- prompt: "[Target: {target_path}] [Output: {contract_dir}/{name_prefix}-target-{serial}.docx] [Skills: skills/docx] Convert the target contract PDF at {target_path} to docx using LibreOffice. Write to {contract_dir}/{name_prefix}-target-{serial}.docx. Validate the output."
-- description: "Converting PDF to DOCX → {name_prefix}-target-{serial}.docx"
+- prompt: "[Markdown: {contract_dir}/drafts/{name_prefix}-target-{serial}.md] [Output: {contract_dir}/{name_prefix}-target-{serial}.docx] [Skills: skills/docx] Read the structured markdown at {contract_dir}/drafts/{name_prefix}-target-{serial}.md. Generate a clean Word document using docx-js with Times New Roman 11pt, proper headings, and bookmarks at every clause anchor. Write to {contract_dir}/{name_prefix}-target-{serial}.docx. Validate the output."
+- description: "Converting markdown to DOCX → {name_prefix}-target-{serial}.docx"
 
 **Agent 6 — Report Formatter:**
 - subagent_type: "report-formatter"
@@ -113,6 +122,7 @@ After all steps complete for this contract, print:
 ```
 Contract: {client_slug} {contract_type}
   Classification: {contract_dir}/classification.md
+  Target (markdown): {contract_dir}/drafts/{name_prefix}-target-{serial}.md
   Gap Analysis (draft): {contract_dir}/drafts/{name_prefix}-gap-analysis-draft-{serial}.md
   Gap Analysis (docx): {contract_dir}/{name_prefix}-gap-analysis-{serial}.docx
   Redlined Contract: {contract_dir}/{name_prefix}-redlined-{serial}.docx
