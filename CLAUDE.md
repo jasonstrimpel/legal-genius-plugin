@@ -16,7 +16,7 @@ There is no build system, package manager, or test suite. The codebase is markdo
 ```
 .claude-plugin/plugin.json    # Plugin manifest
 commands/legal-genius.md       # Main orchestrator — the /legal-genius command
-agents/                        # 6 specialized agent prompts (markdown + YAML frontmatter)
+agents/                        # 7 specialized agent prompts (markdown + YAML frontmatter)
 skills/docx/                   # Bundled docx skill from anthropics/skills
 benchmarks/                    # User places Andersen benchmark .docx templates here
 targets/                       # User places target contract PDFs here, organized by firm
@@ -26,7 +26,7 @@ targets/                       # User places target contract PDFs here, organize
 
 The orchestrator (`commands/legal-genius.md`) drives a per-contract pipeline that processes all target contracts for a firm in batch. It never reads contracts or writes analysis itself — it delegates everything to agents via the Task tool.
 
-**Phase flow:** Initialize → [Per Contract: Classify → Analyze → Audit → (Convert + Format in parallel) → Redline] → Completion
+**Phase flow:** Initialize → [Per Contract: Classify → Analyze → Audit → PDF-to-Markdown → (Convert + Format in parallel) → Redline] → Completion
 
 **Coordination model:** File-based. Each agent reads source documents and writes output files. The orchestrator passes file paths and metadata between agents via Task prompts.
 
@@ -39,7 +39,8 @@ The orchestrator (`commands/legal-genius.md`) drives a per-contract pipeline tha
 | `contract-classifier` | Read target PDF, classify contract type, select benchmark | Read, Write, Glob |
 | `gap-analyzer` | Exhaustive clause-by-clause gap analysis (all gaps, no cap) | Read, Write |
 | `audit-reviewer` | Reread source docs, fact-check and revise draft analysis | Read, Write |
-| `target-to-docx` | Convert target PDF to clean docx (base for redlining) | Read, Write, Bash |
+| `pdf-to-markdown` | Convert target PDF to structured markdown with clause anchors | Read, Write |
+| `target-to-docx` | Convert structured markdown to clean docx with bookmarks (base for redlining) | Read, Write, Bash, Skill |
 | `redline-editor` | Apply tracked changes to target docx per gap recommendations | Read, Write, Bash, Edit |
 | `report-formatter` | Convert gap analysis markdown to formatted Times Roman docx | Read, Write, Bash, Skill |
 
@@ -56,11 +57,10 @@ All files: `{YYYY-MM-DD}-{Firm_Slug}-{Client_Slug}-{ContractType}-{DocType}[-red
 - Each agent's YAML frontmatter defines its `tools` — only listed tools are available
 - Agent input/output file paths are defined in both the agent and the orchestrator; update both if changing
 - The orchestrator references agents by filename (minus `.md`); renaming requires updating `commands/legal-genius.md`
-- The `report-formatter` and `redline-editor` agents use the bundled docx skill at `skills/docx/`
+- The `report-formatter`, `target-to-docx`, and `redline-editor` agents use the bundled docx skill at `skills/docx/`
 
 ## Dependencies
 
-- LibreOffice (`soffice`) — PDF to docx conversion
 - `npm install -g docx` — docx-js for creating formatted Word documents
 - Python packages: `lxml`, `defusedxml` — XML validation and repair
 - `pandoc` — text extraction from docx benchmarks
